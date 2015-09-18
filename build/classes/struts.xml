@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 配置struts的开发模式，开发过程中自动加载struts.xml，同时在控制台显示更多错误信息 -->
+	<constant name="struts.devMode" value="true"></constant>
+	<!-- 配置UI主题为简单主题，目的去掉struts2提供的样式，由美工添加样式 -->
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<!-- 配置struts访问的后缀，从默认的action改成do -->
+	<constant name="struts.action.extension" value="do"></constant>
+	<!-- 配置上传文件的大小 -->
+	<constant name="struts.multipart.maxSize" value="86170804" />
+
+	<!-- 系统管理 -->
+	<package name="system" namespace="/system" extends="json-default">
+
+		<!-- 配置拦截器栈 -->
+		<interceptors>
+			<!-- 自定义配置的拦截器 拦截 没有登录的操作 -->
+			<interceptor name="ExceptionInterceptor"
+				class="cn.haut.elec.web.interceptor.ExceptionInterceptor"></interceptor>
+			<interceptor name="LimitInterceptor"
+				class="cn.haut.elec.web.interceptor.LimitInterceptor"></interceptor>
+			<!-- 设置一个自定义的拦截器栈 -->
+			<interceptor-stack name="elecStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="ExceptionInterceptor"></interceptor-ref>
+				<interceptor-ref name="LimitInterceptor">
+					<!-- 配置哪些方法不被拦截器 -->
+					<param name="excludeMethods">menuHome,main,title,left,change,loading,logout,alermStation,alermDevice,showMenu</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 将自定义的拦截器栈 设置为默认的拦截器栈 -->
+		<default-interceptor-ref name="elecStack"></default-interceptor-ref>
+
+		<!-- 配置全局跳转页面 -->
+		<global-results>
+			<result name="close">/close.jsp</result>
+			<result name="input">/error.jsp</result>
+			<result name="index">/WEB-INF/pages/menu/index.jsp</result>
+			<result name="errorMsg">/errorMsg.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="errorMsg" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+
+		<!-- 测试Action -->
+		<action name="elecTextAction_*" class="elecTextAction" method="{1}">
+			<result name="index">/WEB-INF/pages/text/textAdd.jsp</result>
+			<result name="save">/WEB-INF/pages/system/textAdd.jsp</result>
+		</action>
+		<!-- 菜单管理功能 -->
+		<action name="elecMenuAction_*" class="elecMenuAction" method="{1}">
+			<result name="menuHome" type="redirectAction">
+				<param name="namespace">/system</param>
+				<param name="actionName">elecMenuAction_main.do</param>
+			</result>
+			<result name="main">/WEB-INF/pages/menu/home.jsp</result>
+			<result name="title">/WEB-INF/pages/menu/title.jsp</result>
+			<result name="left">/WEB-INF/pages/menu/left.jsp</result>
+			<result name="change">/WEB-INF/pages/menu/change.jsp</result>
+			<result name="loading">/WEB-INF/pages/menu/loading.jsp</result>
+			<result name="logout" type="redirect">/index.jsp</result>
+			<result name="alermDevice">/WEB-INF/pages/menu/alermDevice.jsp</result>
+			<result name="alermStation">/WEB-INF/pages/menu/alermStation.jsp</result>
+			<result name="showMenu" type="json"></result>
+			<!-- 登陆功能管理 -->
+		</action>
+		<!-- 运行监控 -->
+		<action name="elecCommonMsgAction_*" class="elecCommonMsgAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/system/actingIndex.jsp</result>
+			<result name="save" type="redirectAction">
+				<param name="namespace">/system</param>
+				<param name="actionName">elecCommonMsgAction_home</param>
+			</result>
+		</action>
+		<!-- 导出设置 -->
+		<action name="elecExportFieldsAction_*" class="elecExportFieldsAction"
+			method="{1}">
+			<result name="setExportExcel">/WEB-INF/pages/system/exportExcel.jsp</result>
+		</action>
+		<!-- 数据字典 -->
+		<action name="elecSystemDDLAction_*" class="elecSystemDDLAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/system/dictionaryIndex.jsp
+			</result>
+			<result name="edit">/WEB-INF/pages/system/dictionaryEdit.jsp</result>
+		</action>
+		<!-- 用户管理 -->
+		<action name="elecUserAction_*" class="elecUserAction" method="{1}">
+			<result name="home">/WEB-INF/pages/system/userIndex.jsp</result>
+			<result name="add">/WEB-INF/pages/system/userAdd.jsp</result>
+			<result name="findJctUnit" type="json">
+				<param name="includeProperties">\[\d+\]\.ddlCode,\[\d+\]\.ddlName</param>
+			</result>
+			<result name="checkUser" type="json">
+				<!-- 将对象中的某个属性message的值放置到栈顶 -->
+				<param name="root">message</param>
+				<!-- 标识对象中只有message的属性被json话，此时页面调用的时候，data.message -->
+				<param name="includeProperties">message</param>
+			</result>
+			<result name="edit">/WEB-INF/pages/system/userEdit.jsp</result>
+			<result name="delete" type="redirectAction">
+				<param name="actionName">elecUserAction_home.do</param>
+				<param name="namespace">/system</param>
+			</result>
+			<result name="chartUser">/WEB-INF/pages/system/userCounts.jsp</result>
+
+			<!-- 分页 -->
+			<result name="list">
+				/WEB-INF/pages/system/userList.jsp
+			</result>
+
+			<!-- 使用struts来导出数据 -->
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${#request.filename}.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+
+			<result name="importPage">
+				/WEB-INF/pages/system/userImport.jsp
+			</result>
+			<!-- jfreeChart统计人员数量 -->
+			<result name="report">
+				/WEB-INF/pages/system/userReport.jsp
+			</result>
+
+		</action>
+		<!-- 角色管理 -->
+		<action name="elecRoleAction_*" class="elecRoleAction" method="{1}">
+			<result name="home">/WEB-INF/pages/system/roleIndex.jsp</result>
+			<result name="edit">/WEB-INF/pages/system/roleEdit.jsp</result>
+			<result name="save" type="redirectAction">system/elecRoleAction_home.do
+			</result>
+		</action>
+	</package>
+
+	<!-- -工作流程包 -->
+	<package name="wordflow" namespace="/workflow" extends="system">
+		<!-- 流程管理 -->
+		<action name="elecProcessDefinitionAction_*" class="elecProcessDefinitionAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/workflow/processDefinitionList.jsp
+			</result>
+			<result name="add">/WEB-INF/pages/workflow/processDefinitionAdd.jsp
+			</result>
+			<result name="close">/close.jsp</result>
+			<result name="downloadProcessImage" type="stream">
+				<param name="contentType">image/png</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">inline</param>
+			</result>
+
+		</action>
+
+		<!-- 工作流程的模板管理 -->
+		<action name="elecApplicationTemplateAction_*" class="elecApplicationTemplateAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/workflow/applicationTemplateList.jsp
+			</result>
+			<result name="add">/WEB-INF/pages/workflow/applicationTemplateAdd.jsp
+			</result>
+			<result name="download" type="stream">
+				<param name="contentType">${contentType}</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+			</result>
+			<result name="edit">/WEB-INF/pages/workflow/applicationTemplateEdit.jsp
+			</result>
+		</action>
+
+		<!-- 工作流程管理 -->
+		<action name="elecApplicationFlowAction_*" class="elecApplicationFlowAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/workflow/flowTemplateList.jsp
+			</result>
+			<result name="submitApplication">/WEB-INF/pages/workflow/flowSubmitApplication.jsp
+			</result>
+			<result name="myTaskHome">/WEB-INF/pages/workflow/flowMyTaskList.jsp
+			</result>
+			<result name="flowApprove">/WEB-INF/pages/workflow/flowApprove.jsp
+			</result>
+			<result name="flowApprovedHistory">/WEB-INF/pages/workflow/flowApprovedHistory.jsp
+			</result>
+			<result name="myApplicationHome">/WEB-INF/pages/workflow/flowMyApplicationList.jsp
+			</result>
+			<result name="download" type="stream">
+				<param name="contentType">${contentType}</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename=${fileName}</param>
+			</result>
+			<result name="approvedHistoryPic">/WEB-INF/pages/workflow/flowApprovedHistoryPic.jsp
+			</result>
+		</action>
+	</package>
+
+	<!-- 监测台建筑管理 -->
+	<package name="building" namespace="/building" extends="system">
+		<action name="elecBuildingAction_*" class="elecBuildingAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/building/buildingIndex.jsp
+			</result>
+			<result name="add">/WEB-INF/pages/building/buildingAdd.jsp
+			</result>
+			<result name="list">
+				/WEB-INF/pages/building/buildingList.jsp
+			</result>
+			<result name="view">
+				/WEB-INF/pages/building/buildingView.jsp
+			</result>
+			<result name="edit">
+				/WEB-INF/pages/building/buildingEdit.jsp
+			</result>
+			<!-- 使用struts来导出数据 -->
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${#request.filename}.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="importPage">/WEB-INF/pages/building/buildingImport.jsp
+			</result>
+			<result name="report">/WEB-INF/pages/building/buildingReport.jsp
+			</result>
+		</action>
+	</package>
+	<!-- 站点设备运行管理 -->
+	<package name="station" namespace="/station" extends="system">
+		<!-- 站点基本信息 -->
+		<action name="elecStationAction_*" method="{1}" class="elecStationAction">
+			<result name="home">
+				/WEB-INF/pages/siteEquapment/siteInfoIndex.jsp
+			</result>
+			<result name="add">
+				/WEB-INF/pages/siteEquapment/siteInfoAdd.jsp
+			</result>
+			<result name="list">
+				/WEB-INF/pages/siteEquapment/siteInfoList.jsp
+			</result>
+			<result name="view">
+				/WEB-INF/pages/siteEquapment/siteInfoView.jsp
+			</result>
+			<result name="edit">
+				/WEB-INF/pages/siteEquapment/siteInfoEdit.jsp
+			</result>
+			<!-- 使用struts来导出数据 -->
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${#request.filename}.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="importPage">/WEB-INF/pages/siteEquapment/siteInfoImport.jsp
+			</result>
+			<result name="report">/WEB-INF/pages/siteEquapment/siteInfoReport.jsp
+			</result>
+		</action>
+		<!-- 站点运行情况 -->
+		<action name="elecBugAction_*" class="elecBugAction" method="{1}">
+			<result name="home">/WEB-INF/pages/siteEquapment/siteRunIndex.jsp
+			</result>
+			<result name="list">/WEB-INF/pages/siteEquapment/siteRunList.jsp
+			</result>
+			<result name="edit">/WEB-INF/pages/siteEquapment/siteRunEdit.jsp
+			</result>
+			<result name="showRunTime">/WEB-INF/pages/siteEquapment/siteRunTime.jsp
+			</result>
+			<!-- 使用struts来导出数据 -->
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${#request.filename}.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="importPage">/WEB-INF/pages/siteEquapment/siteRunImport.jsp
+			</result>
+		</action>
+		<!-- 站点信息文件上传 -->
+		<action name="elecFileUploadAction_*" class="elecFileUploadAction"
+			method="{1}">
+			<result name="detail">/WEB-INF/pages/siteEquapment/siteRunFile.jsp
+			</result>
+			<result name="upload">/WEB-INF/pages/siteEquapment/siteRunFile.jsp
+			</result>
+			<result name="view" type="stream">
+				<param name="contentType">${contentType}</param>
+				<param name="inputName">targetName</param>
+				<param name="contentDisposition">attachment;filename=${filename}</param>
+			</result>
+			<!-- 站点维护 -->
+			<result name="up">/WEB-INF/pages/siteEquapment/siteMaintainFile.jsp
+			</result>
+			<!-- 设备校准 -->
+			<result name="adjustFile">/WEB-INF/pages/equapment/adjustFile.jsp
+			</result>
+			<!-- 设备检修 -->
+			<result name="repairFile">/WEB-INF/pages/equapment/repairFile.jsp
+			</result>
+		</action>
+		<!-- 站点维护 计划 -->
+		<action name="elecPlanAction_*" class="elecPlanAction" method="{1}">
+			<result name="home">
+				/WEB-INF/pages/siteEquapment/siteMaintainIndex.jsp
+			</result>
+			<result name="list">
+				/WEB-INF/pages/siteEquapment/siteMaintainList.jsp
+			</result>
+			<result name="list">
+				/WEB-INF/pages/siteEquapment/siteMaintainList.jsp
+			</result>
+			<result name="add">
+				/WEB-INF/pages/siteEquapment/siteMaintainAdd.jsp
+			</result>
+			<result name="view">
+				/WEB-INF/pages/siteEquapment/siteMaintainView.jsp
+			</result>
+			<result name="edit">
+				/WEB-INF/pages/siteEquapment/siteMaintainEdit.jsp
+			</result>
+		</action>
+		<!-- 站点维护情况 -->
+		<action name="elecStateAction_*" class="elecStateAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/siteEquapment/siteStateIndex.jsp
+			</result>
+			<result name="add">/WEB-INF/pages/siteEquapment/siteStateAdd.jsp
+			</result>
+			<result name="list">/WEB-INF/pages/siteEquapment/siteStateList.jsp
+			</result>
+		</action>
+	</package>
+
+	<!-- 技术资料图纸管理 -->
+	<package name="dataChart" namespace="/dataChart" extends="system">
+		<action name="elecDataChartAction_*" class="elecDataChartAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/dataChart/dataChartIndex.jsp
+			</result>
+			<result name="add">/WEB-INF/pages/dataChart/dataChartAdd.jsp
+			</result>
+			<result name="list">/WEB-INF/pages/dataChart/dataChartList.jsp
+			</result>
+			<result name="addList">/WEB-INF/pages/dataChart/dataChartAddList.jsp
+			</result>
+			<result name="download" type="stream">
+				<param name="contentType">${contentType}</param>
+				<param name="inputName">targetName</param>
+				<param name="contentDisposition">attachment;filename=${filename}</param>
+			</result>
+		</action>
+	</package>
+
+	<!-- 技术设施维护管理 -->
+	<package name="equapment" namespace="/equapment" extends="system">
+		<!-- 仪器设备管理 -->
+		<action name="elecEquapmentAction_*" class="elecEquapmentAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/equapment/equapmentIndex.jsp
+			</result>
+			<result name="list">/WEB-INF/pages/equapment/equapmentList.jsp
+			</result>
+			<result name="view">/WEB-INF/pages/equapment/equapmentView.jsp
+			</result>
+			<result name="edit">/WEB-INF/pages/equapment/equapmentEdit.jsp
+			</result>
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${#request.filename}.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+
+		<!-- 设备校准检修 -->
+		<action name="elecAdjustAction_*" class="elecAdjustAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/equapment/adjustIndex.jsp</result>
+			<result name="list">/WEB-INF/pages/equapment/adjustList.jsp</result>
+			<result name="adjustMoreAdd">/WEB-INF/pages/equapment/adjustMoreAdd.jsp
+			</result>
+			<result name="adjustMoreAddList">/WEB-INF/pages/equapment/adjustMoreAddList.jsp
+			</result>
+			<result name="adjustQuery">/WEB-INF/pages/equapment/adjustQuery.jsp
+			</result>
+			<result name="edit">/WEB-INF/pages/equapment/adjustEdit.jsp
+			</result>
+			<result name="view">/WEB-INF/pages/equapment/adjustView.jsp
+			</result>
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${#request.filename}.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="add">/WEB-INF/pages/equapment/adjustAdd.jsp</result>
+		</action>
+		<!-- 设备检修管理 -->
+		<action name="elecRepairAction_*" class="elecRepairAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/equapment/repairIndex.jsp</result>
+			<result name="list">/WEB-INF/pages/equapment/repairList.jsp</result>
+			<result name="repairMoreAdd">/WEB-INF/pages/equapment/repairMoreAdd.jsp
+			</result>
+			<result name="repairMoreAddList">/WEB-INF/pages/equapment/repairMoreAddList.jsp
+			</result>
+			<result name="repairQuery">/WEB-INF/pages/equapment/repairQuery.jsp
+			</result>
+			<result name="add">/WEB-INF/pages/equapment/repairAdd.jsp</result>
+			<result name="edit">/WEB-INF/pages/equapment/repairEdit.jsp</result>
+			<result name="view">/WEB-INF/pages/equapment/repairAdd.jsp</result>
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${#request.filename}.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+
+		<!-- 设备购置计划 -->
+		<action name="elecDevPlanAction_*" class="elecDevPlanAction"
+			method="{1}">
+			<result name="home">/WEB-INF/pages/equapment/planIndex.jsp
+			</result>
+			<result name="list">/WEB-INF/pages/equapment/planList.jsp
+			</result>
+			<result name="add">/WEB-INF/pages/equapment/planAdd.jsp
+			</result>
+			<result name="view">/WEB-INF/pages/equapment/planView.jsp
+			</result>
+			<result name="edit">/WEB-INF/pages/equapment/planEdit.jsp
+			</result>
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${#request.filename}.xls"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="importPage">/WEB-INF/pages/equapment/planImport.jsp
+			</result>
+			<result name="report">/WEB-INF/pages/equapment/planReport.jsp
+			</result>
+		</action>
+	</package>
+</struts>

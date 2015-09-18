@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecApplicationTemplate" table="Elec_Application_Template">
+		<id name="id" type="integer" column="id">
+			<generator class="increment"></generator>
+		</id>
+		<property name="name" type="string" column="name"></property>
+		<property name="processDefinitionKey" type="string" column="processDefinitionKey"></property>
+		<property name="path" type="string" column="path"></property>
+		
+		<!-- 映射一对多的关联关系，与申请信息表 -->
+		<set name="elecApplications" table="Elec_Application" inverse="true">
+			<key>
+				<column name="applicationTemplateID"></column>
+			</key>
+			<one-to-many class="cn.haut.elec.domain.ElecApplication"/>
+		</set>
+	</class>
+</hibernate-mapping>

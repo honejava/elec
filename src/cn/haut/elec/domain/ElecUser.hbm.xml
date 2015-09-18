@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecUser" table="Elec_User">
+		<id name="userID" type="string" column="userID">
+			<generator class="uuid"></generator>
+		</id>
+		<property name="jctID" type="string" column="jctID"></property>
+		<property name="jctUnitID" type="string" column="jctUnitID"></property>
+		<property name="userName" type="string" column="userName"></property>
+		<property name="logonName" type="string" column="logonName"></property>
+		<property name="logonPwd" type="string" column="logonPwd"></property>
+		<property name="sexID" type="string" column="sexID"></property>
+		<property name="birthday" type="date" column="birthday"></property>
+		<property name="address" type="string" column="address"></property>
+		<property name="contactTel" type="string" column="contactTel"></property>
+		<property name="email" type="string" column="email"></property>
+		<property name="mobile" type="string" column="mobile"></property>
+		<property name="isDuty" type="string" column="isDuty"></property>
+		<property name="postID" type="string" column="postID"></property>
+		<property name="onDutyDate" type="date" column="onDutyDate"></property>
+		<property name="offDutyDate" type="date" column="offDutyDate"></property>
+		<property name="remark" type="string" column="remark"></property>
+
+		<set name="elecRoles" table="elec_user_role" inverse="true">
+			<key>
+				<column name="userID"></column>
+			</key>
+			<many-to-many class="cn.haut.elec.domain.ElecRole"
+				column="roleID" />
+		</set>
+
+
+		<!-- 映射与申请信息表的申请人ID建议一对多的关系 -->
+		<set name="elecApplications" table="Elec_Application" inverse="true">
+			<key>
+				<column name="applicationUserID"></column>
+			</key>
+			<one-to-many class="cn.haut.elec.domain.ElecApplication" />
+		</set>
+
+		<!-- 映射与审核信息表的审核人ID建议一对多的关系 -->
+		<set name="elecApproveInfos" table="Elec_ApproveInfo" inverse="true">
+			<key>
+				<column name="approveUserID"></column>
+			</key>
+			<one-to-many class="cn.haut.elec.domain.ElecApproveInfo" />
+		</set>
+	</class>
+</hibernate-mapping>

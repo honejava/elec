@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecPlan" table="Elec_Plan">
+		<id name="planID" type="integer" column="planID">
+			<generator class="increment"></generator>
+		</id>
+		<property name="jctID" type="string" column="jctID"></property>
+		<property name="occurDate" type="date" column="occurDate"></property>
+
+		<property name="mainContent" type="string" column="mainContent"></property>
+		<property name="comment" type="string" column="comment"></property>
+
+	</class>
+</hibernate-mapping>

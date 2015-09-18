@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="hibernate.connection.driver_class">
+			com.mysql.jdbc.Driver
+		</property>
+		<property name="hibernate.connection.url">
+			jdbc:mysql://localhost:3306/elec?useUnicode=true&amp;characterEncoding=utf8
+		</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">123456</property>
+		<!-- 使用hibernate让事务自动提交 <property name="hibernate.connection.autocommit">true</property> -->
+		<!-- 配置其它信息 -->
+		<property name="hibernate.dialect">
+			org.hibernate.dialect.MySQL5InnoDBDialect
+		</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">false</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+
+
+		<!-- 开启2级缓存 -->
+		<property name="hibernate.cache.use_second_level_cache">
+			true
+		</property>
+		<property name="hibernate.cache.provider_class">
+			org.hibernate.cache.EhCacheProvider
+		</property>
+		<!-- 开启查询缓存 -->
+		<property name="hibernate.cache.use_query_cache">true</property>
+
+		<!-- 导入JBPM工作流的映射文件 修改添加工作流 -->
+		<mapping resource="jbpm.repository.hbm.xml" />
+		<mapping resource="jbpm.execution.hbm.xml" />
+		<mapping resource="jbpm.history.hbm.xml" />
+		<mapping resource="jbpm.task.hbm.xml" />
+		<mapping resource="jbpm.identity.hbm.xml" />
+
+
+		<!-- 添加映射文件 -->
+		<mapping resource="cn/haut/elec/domain/ElecText.hbm.xml" />
+		<mapping resource="cn/haut/elec/domain/ElecCommonMsg.hbm.xml" />
+		<mapping resource="cn/haut/elec/domain/ElecExportFields.hbm.xml" />
+		<mapping resource="cn/haut/elec/domain/ElecSystemDDL.hbm.xml" />
+		<mapping resource="cn/haut/elec/domain/ElecUser.hbm.xml" />
+
+		<mapping resource="cn/haut/elec/domain/ElecRole.hbm.xml" />
+		<mapping resource="cn/haut/elec/domain/ElecPopedom.hbm.xml" />
+		<mapping resource="cn/haut/elec/domain/ElecRolePopedom.hbm.xml" />
+
+		<mapping resource="cn/haut/elec/domain/ElecApplication.hbm.xml" />
+		<mapping resource="cn/haut/elec/domain/ElecApplicationTemplate.hbm.xml" />
+		<mapping resource="cn/haut/elec/domain/ElecApproveInfo.hbm.xml" />
+
+		<!-- 建筑物管理映射关系 -->
+		<mapping resource="cn/haut/elec/domain/ElecBuilding.hbm.xml" />
+		<!-- 站点信息管理映射关系 -->
+		<mapping resource="cn/haut/elec/domain/ElecStation.hbm.xml" />
+		<!-- 站点运行情况 -->
+		<mapping resource="cn/haut/elec/domain/ElecBug.hbm.xml" />
+		<!-- 文件上传 -->
+		<mapping resource="cn/haut/elec/domain/ElecFileUpload.hbm.xml" />
+		<!-- 站点维护 -->
+		<mapping resource="cn/haut/elec/domain/ElecPlan.hbm.xml" />
+
+		<!-- 图书资料管理 -->
+		<mapping resource="cn/haut/elec/domain/ElecDataChart.hbm.xml" />
+
+		<!-- 技术设置维护管理 -->
+		<mapping resource="cn/haut/elec/domain/ElecEquapment.hbm.xml" />
+		<mapping resource="cn/haut/elec/domain/ElecDevPlan.hbm.xml" />
+
+		<!-- 设备校准 -->
+		<mapping resource="cn/haut/elec/domain/ElecAdjust.hbm.xml" />
+		<!-- 设备检修 -->
+		<mapping resource="cn/haut/elec/domain/ElecRepair.hbm.xml" />
+
+		<!-- 指定开启查询缓存的类 -->
+		<!-- 注意这里设置的read-only 只有当这个数据字典不在需要修改的时候 才设置为read-only read-write 当用户在开发的阶段 
+			需要设置为read-write 否则的话 总会出现 Can't write to a readonly object -->
+
+		<class-cache usage="read-write" class="cn.haut.elec.domain.ElecSystemDDL" />
+		<class-cache usage="read-write" class="cn.haut.elec.domain.ElecPopedom" />
+		<class-cache usage="read-write" class="cn.haut.elec.domain.ElecUser" />
+
+	</session-factory>
+</hibernate-configuration>

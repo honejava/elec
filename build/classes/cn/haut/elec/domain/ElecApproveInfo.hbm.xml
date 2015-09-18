@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecApproveInfo" table="Elec_ApproveInfo">
+		<id name="approveID" type="integer" column="approveID">
+			<generator class="increment"></generator>
+		</id>
+		<property name="comment" type="string" column="comment"></property>
+		<property name="approval" type="boolean" column="approval"></property>
+		<property name="approveTime" type="timestamp" column="approveTime"></property>
+		
+		<!-- 映射多对一申请信息表 -->
+		<many-to-one name="elecApplication" class="cn.haut.elec.domain.ElecApplication">
+			<column name="applicationID"></column>
+		</many-to-one>
+		
+		<!-- 映射多对一用户信息表-->
+		<many-to-one name="elecUser" class="cn.haut.elec.domain.ElecUser">
+			<column name="approveUserID"></column>
+		</many-to-one>
+		
+	</class>
+</hibernate-mapping>

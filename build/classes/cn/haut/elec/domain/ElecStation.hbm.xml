@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecStation" table="Elec_Station">
+		<id name="stationID" type="integer" column="stationID">
+			<generator class="increment"></generator>
+		</id>
+		<property name="jctID" type="string" column="jctID"></property>
+		<property name="stationName" type="string" column="stationName"></property>
+
+		<property name="stationCode" type="string" column="stationCode"></property>
+		<property name="useStartDate" type="date" column="useStartDate"></property>
+		<property name="jcfrequency" type="string" column="jcfrequency"></property>
+
+		<property name="produceHome" type="string" column="produceHome"></property>
+		<property name="contactType" type="string" column="contactType"></property>
+		<property name="stationType" type="string" column="stationType"></property>
+
+		<property name="attributionGround" type="string" column="attributionGround"></property>
+		<property name="comment" type="string" column="comment"></property>
+
+	</class>
+</hibernate-mapping>

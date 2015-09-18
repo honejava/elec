@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecDataChart" table="Elec_DataChart">
+		<id name="dataChartID" type="integer" column="dataChartID">
+			<generator class="increment"></generator>
+		</id>
+
+		<property name="jctID" type="string" column="jctID"></property>
+
+		<property name="belongTo" type="string" column="belongTo"></property>
+
+		<property name="dataChartName" type="string" column="dataChartName"></property>
+
+		<property name="comment" type="string" column="comment"></property>
+
+
+	</class>
+</hibernate-mapping>

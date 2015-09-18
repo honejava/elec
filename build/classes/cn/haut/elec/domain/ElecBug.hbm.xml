@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecBug" table="Elec_Bug">
+		<id name="bugID" type="integer" column="bugID">
+			<generator class="increment"></generator>
+		</id>
+
+		<many-to-one name="elecStation" column="stationID"
+			class="cn.haut.elec.domain.ElecStation" cascade="all" />
+
+		<property name="bugType" type="string" column="bugType"></property>
+		<property name="occurDate" type="date" column="occurDate"></property>
+
+		<property name="produceHome" type="string" column="produceHome"></property>
+		<property name="bugDescribe" type="string" column="bugDescribe"></property>
+		<property name="resolveDate" type="date" column="resolveDate"></property>
+
+		<property name="resolveMethod" type="string" column="resolveMethod"></property>
+		<property name="btnResolve" type="string" column="btnResolve"></property>
+		<property name="bugReason" type="string" column="bugReason"></property>
+
+		<property name="comment" type="string" column="comment"></property>
+
+
+		<property name="sbYear" type="string" column="sbYear"></property>
+		<property name="sbMonth" type="string" column="sbMonth"></property>
+
+
+	</class>
+</hibernate-mapping>

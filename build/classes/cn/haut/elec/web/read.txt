@@ -1,0 +1,5 @@
+测试本项目的配置文件
+出现的问题
+
+1.在 elecText的save方法中 因为事务设置的属性为readOnly = true一直报未知的错误
+2.事务 开在service层

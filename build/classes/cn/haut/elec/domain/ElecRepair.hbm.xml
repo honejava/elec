@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecRepair" table="Elec_Repair">
+		<id name="repairID" type="integer" column="repairID">
+			<generator class="increment"></generator>
+		</id>
+
+		<property name="equapmentID" type="integer" column="equapmentID"></property>
+
+		<property name="jctID" type="string" column="jctID"></property>
+		<property name="devName" type="string" column="devName"></property>
+
+		<property name="overhaulPeriod" type="string" column="overhaulPeriod"></property>
+		<property name="opunit" type="string" column="opunit"></property>
+
+		<property name="useDate" type="date" column="useDate"></property>
+
+		<property name="devType" type="string" column="devType"></property>
+		<property name="startDate" type="date" column="startDate"></property>
+
+		<property name="isHaving" type="string" column="isHaving"></property>
+
+		<property name="comment" type="string" column="comment"></property>
+
+		<property name="record" type="string" column="record"></property>
+
+	</class>
+</hibernate-mapping>

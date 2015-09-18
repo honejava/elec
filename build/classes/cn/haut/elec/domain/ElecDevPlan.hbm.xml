@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecDevPlan" table="Elec_DevPlan">
+		<id name="devPlanID" type="integer" column="devPlanID">
+			<generator class="increment"></generator>
+		</id>
+		<property name="devType" type="string" column="devType"></property>
+		<property name="devName" type="string" column="devName"></property>
+
+		<property name="trademark" type="string" column="trademark"></property>
+		<property name="specType" type="string" column="specType"></property>
+		<property name="produceHome" type="string" column="produceHome"></property>
+
+		<property name="quality" type="int" column="quality"></property>
+		<property name="qunit" type="string" column="qunit"></property>
+		<property name="useness" type="string" column="useness"></property>
+		<property name="produceArea" type="string" column="produceArea"></property>
+
+		<property name="devExpense" type="double" column="devExpense"></property>
+		<property name="useUnit" type="string" column="useUnit"></property>
+		<property name="jctID" type="string" column="jctID"></property>
+
+		<property name="planDate" type="date" column="planDate"></property>
+
+		<property name="adjustPeriod" type="string" column="adjustPeriod"></property>
+		<property name="apunit" type="string" column="apunit"></property>
+
+		<property name="overhaulPeriod" type="string" column="overhaulPeriod"></property>
+		<property name="opunit" type="string" column="opunit"></property>
+
+		<property name="configure" type="string" column="configure"></property>
+	</class>
+</hibernate-mapping>

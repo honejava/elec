@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecEquapment" table="Elec_Equapment">
+		<id name="equapmentID" type="integer" column="equapmentID">
+			<generator class="increment"></generator>
+		</id>
+		<property name="jctID" type="string" column="jctID"></property>
+		<property name="devName" type="string" column="devName"></property>
+
+		<property name="devType" type="string" column="devType"></property>
+		<property name="quality" type="int" column="quality"></property>
+		<property name="qunit" type="string" column="qunit"></property>
+
+		<property name="devExpense" type="double" column="devExpense"></property>
+		<property name="useUnit" type="string" column="useUnit"></property>
+
+		<property name="configure" type="string" column="configure"></property>
+		<property name="specType" type="string" column="specType"></property>
+		<property name="trademark" type="string" column="trademark"></property>
+
+		<property name="devState" type="string" column="devState"></property>
+		<property name="produceHome" type="string" column="produceHome"></property>
+		<property name="produceArea" type="string" column="produceArea"></property>
+
+		<property name="useness" type="string" column="useness"></property>
+
+		<property name="overhaulPeriod" type="string" column="overhaulPeriod"></property>
+		<property name="opunit" type="string" column="opunit"></property>
+
+		<property name="useDate" type="date" column="useDate"></property>
+		<property name="planDate" type="date" column="planDate"></property>
+
+		<property name="adjustPeriod" type="string" column="adjustPeriod"></property>
+		<property name="apunit" type="string" column="apunit"></property>
+
+		<property name="runDescribe" type="string" column="runDescribe"></property>
+
+		<property name="comment" type="string" column="comment"></property>
+
+
+	</class>
+</hibernate-mapping>

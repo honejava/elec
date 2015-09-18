@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.haut.elec.domain.ElecBuilding" table="Elec_Building">
+		<id name="buildingID" type="integer" column="buildingID">
+			<generator class="increment"></generator>
+		</id>
+		<property name="jctID" type="string" column="jctID"></property>
+		<property name="buildName" type="string" column="buildName"></property>
+
+		<property name="buildType" type="string" column="buildType"></property>
+		<property name="buildLayer" type="integer" column="buildLayer"></property>
+		<property name="buildArea" type="double" column="buildArea"></property>
+
+		<property name="buildStartDate" type="date" column="buildStartDate"></property>
+		<property name="extendBuildDate" type="date" column="extendBuildDate"></property>
+		<property name="extendBuildArea" type="double" column="extendBuildArea"></property>
+
+		<property name="dxDate" type="date" column="dxDate"></property>
+		<property name="buildExpense" type="double" column="buildExpense"></property>
+		<property name="useDate" type="date" column="useDate"></property>
+
+		<property name="comment" type="string" column="comment"></property>
+
+	</class>
+</hibernate-mapping>
